@@ -1,8 +1,9 @@
 function drawIt() {
     //balls
-    var x = 150;
-    var y = 150;
-    var dx = 2;
+    var x = 450;
+    var y = 500;
+
+    var dx = 0;
     var dy = 4;
     var WIDTH = 900;
     var HEIGHT = 800;
@@ -16,8 +17,6 @@ function drawIt() {
     var f = 0;
     var intervalId;
 
-    var rightDown = false;
-    var leftDown = false;
 
     //bricks
     var bricks;
@@ -27,8 +26,11 @@ function drawIt() {
     var BRICKHEIGHT;
     var PADDING;
 
-    var oblak = new Image();
-    oblak.src = "images/cloud.png";
+    var cloudPng = new Image();
+    cloudPng.src = "../images/cloud.png";
+
+    var sunPng = new Image();
+    sunPng.src = "../images/sun.png";
 
 
     function circle(x, y, r) {
@@ -49,9 +51,30 @@ function drawIt() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
     }
 
+    function areAllBricksCleared() {
+        for (i = 0; i < NROWS; i++) {
+            for (j = 0; j < NCOLS; j++) {
+                if (bricks[i][j] == 1) {
+                    return false;
+                }
+            }
+        }
+        setTimeout(winGame, 1000);
+        return true;
+    }
+
+    function bounceFromPaddle() {
+        var paddleCenter = paddlex + (paddlew / 2);
+        var hitOffset = (x - paddleCenter) / (paddlew / 2); // -1 (left edge) to 1 (right edge)
+        var maxDx = 6;
+
+        dx = hitOffset * maxDx;
+        dy = -Math.abs(dy);
+    }
+
     function draw() {
         clear();
-        ctx.fillStyle = '#eddd63';
+        ctx.fillStyle = '#c9b30a';
         circle(x, y, 10);
         //premik ploščice levo in desno
         if (rightDown) {
@@ -75,9 +98,7 @@ function drawIt() {
         for (i = 0; i < NROWS; i++) {
             for (j = 0; j < NCOLS; j++) {
                 if (bricks[i][j] == 1) {
-                    ctx.drawImage(oblak, (j * (BRICKWIDTH + PADDING)) + PADDING, (i * (BRICKHEIGHT + PADDING)) + PADDING, BRICKWIDTH, BRICKHEIGHT);
-
-
+                    ctx.drawImage(cloudPng, (j * (BRICKWIDTH + PADDING)) + PADDING, (i * (BRICKHEIGHT + PADDING)) + PADDING, BRICKWIDTH, BRICKHEIGHT);
                 }
             }
         }
@@ -90,6 +111,11 @@ function drawIt() {
         if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
             dy = -dy; bricks[row][col] = 0;
         }
+        if (areAllBricksCleared()) {
+            drawSun();
+            clearInterval(intervalId);
+            return;
+        }
         if (x + dx > WIDTH - r || x + dx < 0 + r) {
             dx = -dx;
         }
@@ -98,7 +124,7 @@ function drawIt() {
         }
         else if (y + dy > HEIGHT - (r + f)) {
             if (x > paddlex && x < paddlex + paddlew) {
-                dy = -dy;
+                bounceFromPaddle();
             }
             else if (y + dy > HEIGHT - r) {
                 endGame();
@@ -109,36 +135,20 @@ function drawIt() {
         y += dy;
     }
 
-    // Keyboard input
-    function onKeyDown(evt) {
-        if (evt.keyCode == 39)
-            rightDown = true;
-        else if (evt.keyCode == 37) leftDown = true;
-    }
-
-    function onKeyUp(evt) {
-        if (evt.keyCode == 39)
-            rightDown = false;
-        else if (evt.keyCode == 37) leftDown = false;
-    }
-    $(document).keydown(onKeyDown);
-    $(document).keyup(onKeyUp);
-
-
     // Inicializacija vsega
     function init_paddle() {
-        paddlex = WIDTH / 2;
         paddleh = 10;
         paddlew = 130;
+        paddlex = WIDTH / 2 - paddlew / 2;
         f = paddleh;
     }
 
     function initbricks() { //inicializacija opek - polnjenje v tabelo
-        NROWS = 5;
-        NCOLS = 5;
-        BRICKWIDTH = (WIDTH / NCOLS) - 1;
-        BRICKHEIGHT = 15;
-        PADDING = 1;
+        NROWS = 4;
+        NCOLS = 4;
+        BRICKWIDTH = (WIDTH / NCOLS) - 6;
+        BRICKHEIGHT = 60;
+        PADDING = 2;
         bricks = new Array(NROWS);
         for (i = 0; i < NROWS; i++) {
             bricks[i] = new Array(NCOLS);
@@ -147,6 +157,15 @@ function drawIt() {
             }
         }
     }
+
+    function drawSun() {
+        clear();
+        var sunWidth = 180;
+        var sunHeight = 180;
+        ctx.drawImage(sunPng, (WIDTH / 2) - (sunWidth / 2), 100, sunWidth, sunHeight);
+    }
+
+
 
     function init() {
         ctx = $('#canvas')[0].getContext("2d");

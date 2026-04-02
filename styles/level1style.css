@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvasDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+    height: 800px;
+    background-color: rgb(29, 126, 253);
+}
+
+canvas {
+    background-color: transparent;
+}

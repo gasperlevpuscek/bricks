@@ -11,15 +11,7 @@ body {
     align-items: center;
 }
 
-#canvasDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 900px;
-    height: 800px;
-    background-color: rgb(29, 126, 253);
-}
-
-canvas {
-    background-color: transparent;
+button {
+    width: 300px;
+    height: 100px;
 }
