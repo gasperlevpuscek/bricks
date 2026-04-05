@@ -91,14 +91,14 @@ function drawIt() {
         //premik ploščice levo in desno
         if (rightDown) {
             if ((paddlex + paddlew) < WIDTH) {
-                paddlex += 5;
+                paddlex += 6;
             } else {
                 paddlex = WIDTH - paddlew;
             }
         }
         else if (leftDown) {
             if (paddlex > 0) {
-                paddlex -= 5;
+                paddlex -= 6;
             } else {
                 paddlex = 0;
             }
@@ -158,11 +158,9 @@ function drawIt() {
                     continue;
                 }
             }
-
             ball.x += ball.dx;
             ball.y += ball.dy;
         }
-
         if (areAllBricksCleared()) {
             drawSun();
             clearInterval(intervalId);
@@ -191,7 +189,7 @@ function drawIt() {
             brickTypes[i] = new Array(NCOLS);
             for (j = 0; j < NCOLS; j++) {
                 bricks[i][j] = 1;
-                brickTypes[i][j] = Math.random() < 0.2 ? 1 : 0;
+                brickTypes[i][j] = Math.random() < 0.15 ? 1 : 0;
             }
         }
     }

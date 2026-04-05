@@ -10,6 +10,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: url('../images/background1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center -150px;
 }
 
 #canvasDiv {
@@ -18,9 +22,16 @@ body {
     align-items: center;
     width: 900px;
     height: 800px;
-    background-color: rgb(29, 126, 253);
+    background-color: rgba(162, 177, 209, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
 }
 
 canvas {
     background-color: transparent;
+}
+
+#canvasDiv.game-won {
+    background-color: transparent !important;
+    border: none !important;
 }

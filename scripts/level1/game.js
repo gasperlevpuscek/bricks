@@ -2,9 +2,10 @@ function drawIt() {
     //balls
     var x = 450;
     var y = 500;
+    var ballLaunched = false;
 
     var dx = 0;
-    var dy = 4;
+    var dy = 0;
     var WIDTH = 900;
     var HEIGHT = 800;
     var r = 10;
@@ -52,8 +53,8 @@ function drawIt() {
     }
 
     function areAllBricksCleared() {
-        for (i = 0; i < NROWS; i++) {
-            for (j = 0; j < NCOLS; j++) {
+        for (var i = 0; i < NROWS; i++) {
+            for (var j = 0; j < NCOLS; j++) {
                 if (bricks[i][j] == 1) {
                     return false;
                 }
@@ -74,8 +75,6 @@ function drawIt() {
 
     function draw() {
         clear();
-        ctx.fillStyle = '#c9b30a';
-        circle(x, y, 10);
         //premik ploščice levo in desno
         if (rightDown) {
             if ((paddlex + paddlew) < WIDTH) {
@@ -91,27 +90,51 @@ function drawIt() {
                 paddlex = 0;
             }
         }
-        ctx.fillStyle = '#5e3617';
+
+        if (!ballLaunched) {
+            x = paddlex + (paddlew / 2);
+            y = HEIGHT - paddleh - r;
+
+            if (launchRequested) {
+                ballLaunched = true;
+                launchRequested = false;
+                dx = 0;
+                dy = -4;
+            }
+        }
+
+        ctx.fillStyle = '#dad230';
+
+        circle(x, y, 10);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = '#b0671d';
         rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1;
+        ctx.stroke();
 
         //riši opeke
-        for (i = 0; i < NROWS; i++) {
-            for (j = 0; j < NCOLS; j++) {
+        for (var i = 0; i < NROWS; i++) {
+            for (var j = 0; j < NCOLS; j++) {
                 if (bricks[i][j] == 1) {
                     ctx.drawImage(cloudPng, (j * (BRICKWIDTH + PADDING)) + PADDING, (i * (BRICKHEIGHT + PADDING)) + PADDING, BRICKWIDTH, BRICKHEIGHT);
                 }
             }
         }
 
-        rowheight = BRICKHEIGHT + PADDING + f / 2; //Smo zadeli opeko?
-        colwidth = BRICKWIDTH + PADDING + f / 2;
-        row = Math.floor(y / rowheight);
-        col = Math.floor(x / colwidth);
+        var rowheight = BRICKHEIGHT + PADDING + f / 2; //Smo zadeli opeko?
+        var colwidth = BRICKWIDTH + PADDING + f / 2;
+        var row = Math.floor(y / rowheight);
+        var col = Math.floor(x / colwidth);
         //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
         if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
             dy = -dy; bricks[row][col] = 0;
         }
         if (areAllBricksCleared()) {
+            document.getElementById('canvasDiv').classList.add('game-won');
             drawSun();
             clearInterval(intervalId);
             return;
@@ -141,18 +164,20 @@ function drawIt() {
         paddlew = 130;
         paddlex = WIDTH / 2 - paddlew / 2;
         f = paddleh;
+        x = paddlex + (paddlew / 2);
+        y = HEIGHT - paddleh - r;
     }
 
     function initbricks() { //inicializacija opek - polnjenje v tabelo
-        NROWS = 4;
-        NCOLS = 4;
+        NROWS = 1;
+        NCOLS = 1;
         BRICKWIDTH = (WIDTH / NCOLS) - 6;
         BRICKHEIGHT = 60;
-        PADDING = 2;
+        PADDING = 1;
         bricks = new Array(NROWS);
-        for (i = 0; i < NROWS; i++) {
+        for (var i = 0; i < NROWS; i++) {
             bricks[i] = new Array(NCOLS);
-            for (j = 0; j < NCOLS; j++) {
+            for (var j = 0; j < NCOLS; j++) {
                 bricks[i][j] = 1;
             }
         }
