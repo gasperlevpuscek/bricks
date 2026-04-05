@@ -33,6 +33,8 @@ function drawIt() {
     var sunPng = new Image();
     sunPng.src = "../images/sun.png";
 
+    var wooshSound = new Audio("../sounds/woosh.mp3");
+
 
     function circle(x, y, r) {
         ctx.beginPath();
@@ -131,7 +133,10 @@ function drawIt() {
         var col = Math.floor(x / colwidth);
         //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
         if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-            dy = -dy; bricks[row][col] = 0;
+            dy = -dy;
+            bricks[row][col] = 0;
+            wooshSound.volume = 0.5;
+            wooshSound.play();
         }
         if (areAllBricksCleared()) {
             document.getElementById('canvasDiv').classList.add('game-won');
@@ -169,10 +174,10 @@ function drawIt() {
     }
 
     function initbricks() { //inicializacija opek - polnjenje v tabelo
-        NROWS = 1;
-        NCOLS = 1;
+        NROWS = 2;
+        NCOLS = 3;
         BRICKWIDTH = (WIDTH / NCOLS) - 6;
-        BRICKHEIGHT = 60;
+        BRICKHEIGHT = 80;
         PADDING = 1;
         bricks = new Array(NROWS);
         for (var i = 0; i < NROWS; i++) {
@@ -185,9 +190,9 @@ function drawIt() {
 
     function drawSun() {
         clear();
-        var sunWidth = 180;
-        var sunHeight = 180;
-        ctx.drawImage(sunPng, (WIDTH / 2) - (sunWidth / 2), 100, sunWidth, sunHeight);
+        var sunWidth = 730;
+        var sunHeight = 730;
+        ctx.drawImage(sunPng, (WIDTH / 2) - (sunWidth / 2), 0, sunWidth, sunHeight);
     }
 
 

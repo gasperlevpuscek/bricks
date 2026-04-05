@@ -7,7 +7,9 @@ function endGame() {
         confirmButtonText: "Retry",
         allowOutsideClick: false,
         allowEscapeKey: false,
-        allowEnterKey: false
+        allowEnterKey: false,
+        backdrop: false
+
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.reload();
@@ -25,7 +27,8 @@ function winGame() {
         confirmButtonText: "Retry",
         allowOutsideClick: false,
         allowEscapeKey: false,
-        allowEnterKey: false
+        allowEnterKey: false,
+        backdrop: false
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.reload();
