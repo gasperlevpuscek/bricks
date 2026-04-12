@@ -1,5 +1,7 @@
 
 function endGame() {
+    saveBestScore();
+
     Swal.fire({
         title: "You Lose",
         text: "Ball touched the bottom",
@@ -20,9 +22,12 @@ function endGame() {
 
 
 function winGame() {
+    saveBestScore();
+
     Swal.fire({
         title: "You Win",
-        text: "You cleared all the clouds",
+        html: `You cleared all the clouds<br>
+               Your score: ${score}`,
         confirmButtonColor: "#0a9952",
         confirmButtonText: "Retry",
         allowOutsideClick: false,
@@ -39,7 +44,7 @@ function winGame() {
 
 
 function updateLivesDisplay() {
-    var heartDiv = document.querySelector('.heartDiv');
+    var heartDiv = document.getElementById('heartDiv');
     if (heartDiv) {
         heartDiv.innerHTML = '';
         for (var i = 0; i < lives; i++) {

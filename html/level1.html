@@ -8,11 +8,23 @@
 
 <body>
     <div class="gameDiv">
+        <div class="topperHolder">
+            <div id="heartDiv">
+                Lives:
+            </div>
+            <div id="scoreDiv">
+                <p id="sctxt">SCORE:</p>
+                <p id="scoreText">0</p>
+            </div>
+            <div id="bestScoreDiv">
+                <p id="bestsctxt">(Best: </p>
+                <p id="bestscoreText">0</p>
+                <p>)</p>
+            </div>
 
-
-        <div class="heartDiv">
-            Lives:
         </div>
+
+
 
         <div id="canvasDiv">
             <canvas class="canvas" id="canvas" width="900" height="800"></canvas>
@@ -30,6 +42,7 @@
 <script src="../scripts/input.js"></script>
 <script src="../scripts/drawing.js"></script>
 <script>
+    loadBestScore();
     drawIt();
     playHellcatLoop();
 </script>

@@ -1,7 +1,7 @@
 // Inicializacija vsega
 function init_paddle() {
-    paddleh = 10;
-    paddlew = 150;
+    paddleh = 15;
+    paddlew = 170;
     paddlex = WIDTH / 2 - paddlew / 2;
     f = paddleh;
     x = paddlex + (paddlew / 2);
@@ -9,8 +9,8 @@ function init_paddle() {
 }
 
 function initbricks() { //inicializacija opek - polnjenje v tabelo
-    NROWS = 5;
-    NCOLS = 5;
+    NROWS = 4;
+    NCOLS = 4;
     destroyedClouds = 0;
     remainingClouds = NROWS * NCOLS;
     BRICKWIDTH = (WIDTH / NCOLS) - 1;

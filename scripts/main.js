@@ -8,7 +8,7 @@ var dx = 0;
 var dy = 0;
 var WIDTH = 900;
 var HEIGHT = 800;
-var r = 10;
+var r = 13;
 var ctx;
 
 //paddle
@@ -21,6 +21,7 @@ var gameEnded = false;
 var lives = 3;
 
 
+var score = 0;
 
 //bricks
 var bricks;
@@ -42,6 +43,12 @@ var cloudOptions = [cloud1png, cloud2png, cloud3png];
 var sunPng = new Image();
 sunPng.src = "../images/sun.png";
 
+var ballPng = new Image();
+ballPng.src = "../images/ball.png";
+
+var padPng = new Image();
+padPng.src = "../images/pad.png";
+
 
 
 const particles = [];
@@ -52,6 +59,14 @@ var remainingClouds = 0;
 
 function areAllBricksCleared() {
     if (remainingClouds === 0) {
+        var hd = document.getElementById("heartDiv");
+        hd.style.display = 'none';
+
+        var sd = document.getElementById("scoreDiv");
+        sd.style.display = 'none';
+
+        var bsd = document.getElementById("bestScoreDiv");
+        bsd.style.display = 'none';
 
         return true;
     }
@@ -66,6 +81,35 @@ function bounceFromPaddle() {
     dx = hitOffset * maxDx;
     dy = -Math.abs(dy);
 }
+
+function updateScore() {
+    var scoreboard = document.getElementById('scoreText');
+    scoreboard.textContent = score;
+}
+
+function loadBestScore() {
+    var bestScoreText = document.getElementById('bestscoreText');
+    var storedBestScore = localStorage.getItem('bestScore');
+
+    if (storedBestScore === null) {
+        storedBestScore = '0';
+        localStorage.setItem('bestScore', storedBestScore);
+    }
+
+    bestScoreText.textContent = storedBestScore;
+}
+
+function saveBestScore() {
+    var storedBestScore = parseInt(localStorage.getItem('bestScore') || '0', 10);
+
+    if (score > storedBestScore) {
+        localStorage.setItem('bestScore', score);
+        var bestScoreText = document.getElementById('bestscoreText');
+        bestScoreText.textContent = score;
+    }
+}
+
+
 
 function draw() {
     if (gameEnded) {
@@ -102,18 +146,10 @@ function draw() {
         }
     }
 
-    ctx.fillStyle = '#dad230';
 
-    circle(x, y, 10);
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+    ctx.drawImage(ballPng, x - r, y - r, r * 2, r * 2);
+    ctx.drawImage(padPng, paddlex, HEIGHT - paddleh, paddlew, paddleh);
 
-    ctx.fillStyle = '#b0671d';
-    rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 1;
-    ctx.stroke();
 
     //riši opeke
     for (var i = 0; i < NROWS; i++) {
@@ -130,6 +166,8 @@ function draw() {
     var col = Math.floor(x / colwidth);
     //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
     if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+        score = score + 50;
+        updateScore();
         dy = -dy;
         cloudParticles(ctx, particles, x, y, true);
         bricks[row][col] = 0;
@@ -161,6 +199,8 @@ function draw() {
         else if (y + dy > HEIGHT - r) {
             lives--;
             updateLivesDisplay();
+            score = score - 100;
+            updateScore();
             if (lives <= 0) {
                 gameEnded = true;
                 endGame();
