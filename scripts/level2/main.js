@@ -22,6 +22,10 @@ var lives = 3;
 
 var score = 0;
 
+var timerStarted = false;
+var elapsedSeconds = 0;
+var timerIntervalId = null;
+
 //bricks
 var bricks;
 var NROWS;
@@ -161,6 +165,7 @@ function draw() {
             launchRequested = false;
             dx = 0;
             dy = -6;
+            startTimer();
         }
     }
 
@@ -204,6 +209,7 @@ function draw() {
     }
     if (areAllBricksCleared()) {
         gameEnded = true;
+        stopTimer();
         clearInterval(intervalId);
         particles.length = 0;
         fadeInSun(ctx, sunPng);
@@ -231,6 +237,7 @@ function draw() {
             updateScore();
             if (lives <= 0) {
                 gameEnded = true;
+                stopTimer();
                 endGame();
                 clearInterval(intervalId);
             } else {
@@ -249,5 +256,8 @@ function drawIt() {
     initbricks();
     init_paddle();
     init();
+    elapsedSeconds = 0;
+    timerStarted = false;
+    updateTimerDisplay();
     updateLivesDisplay();
 }

@@ -1,7 +1,6 @@
 
 function endGame() {
     saveBestScore();
-
     Swal.fire({
         title: "You Lose",
         text: "Ball touched the bottom",
@@ -11,7 +10,6 @@ function endGame() {
         allowEscapeKey: false,
         allowEnterKey: false,
         backdrop: false
-
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.reload();
@@ -23,13 +21,15 @@ function endGame() {
 
 function winGame() {
     saveBestScore();
-
     Swal.fire({
         title: "You Win",
         html: `You cleared all the clouds<br>
                Your score: ${score}`,
         confirmButtonColor: "#0a9952",
         confirmButtonText: "Retry",
+        showDenyButton: true,
+        denyButtonColor: "#3c6be0",
+        denyButtonText: "Next Level",
         allowOutsideClick: false,
         allowEscapeKey: false,
         allowEnterKey: false,
@@ -37,7 +37,33 @@ function winGame() {
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.reload();
+        } else if (result.isDenied) {
+            window.location.href = "level2.html";
         }
+    });
+}
+
+
+function showHelpAlert() {
+    Swal.fire({
+        title: "How To Play",
+        html: "Use Left and Right arrow keys to move.<br>Press Space to start.<br>Destroy all clouds to win.<br>If the ball touches the bottom, you lose.",
+        confirmButtonColor: "#3c6be0",
+        confirmButtonText: "OK",
+        backdrop: false
+    });
+}
+
+
+var helpBtn = document.getElementById('helpBtn');
+if (helpBtn) {
+    helpBtn.addEventListener('click', showHelpAlert);
+}
+
+var retryBtn = document.getElementById('retryBtn');
+if (retryBtn) {
+    retryBtn.addEventListener('click', function () {
+        window.location.reload();
     });
 }
 
