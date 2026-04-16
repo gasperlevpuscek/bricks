@@ -47,10 +47,34 @@ function winGame() {
 function showHelpAlert() {
     Swal.fire({
         title: "How To Play",
-        html: "Use Left and Right arrow keys to move.<br>Press Space to start.<br>Destroy all clouds to win.<br>If the ball touches the bottom, you lose.",
-        confirmButtonColor: "#3c6be0",
-        confirmButtonText: "OK",
-        backdrop: false
+        html: `
+            <div style="text-align:left; font-size:15px; line-height:1.6;">
+                <p><b>Move:</b> Left / Right arrow keys</p>
+                <p><b>Launch:</b> Press Space</p>
+                <p><b>Objective:</b> Destroy all clouds</p>
+                <hr style="border:0; border-top:1px solid #a8c9ff; margin:10px 0;">
+                <p><b>Lives:</b> You have 3 lives</p>
+                <p>You lose a life when the ball hits the bottom</p>
+            </div>
+        `,
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#68aef9",
+
+        background: "#eaf4ff",
+        color: "#1b2a41",
+
+        backdrop: "rgba(100, 150, 255, 0.25)",
+
+        customClass: {
+            popup: "game-alert-bright"
+        },
+
+        showClass: {
+            popup: "animate__animated animate__fadeInDown"
+        },
+        hideClass: {
+            popup: "animate__animated animate__fadeOutUp"
+        }
     });
 }
 
@@ -64,6 +88,14 @@ var retryBtn = document.getElementById('retryBtn');
 if (retryBtn) {
     retryBtn.addEventListener('click', function () {
         window.location.reload();
+    });
+}
+
+var pauseBtn = document.getElementById('pauseBtn');
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', function () {
+        isPaused = !isPaused;
+        pauseBtn.textContent = isPaused ? 'PLAY' : 'PAUSE';
     });
 }
 

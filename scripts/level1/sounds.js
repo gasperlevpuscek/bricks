@@ -1,5 +1,5 @@
 var wooshSound = new Audio("../sounds/woosh.mp3");
-var hellcat = new Audio("../sounds/hellcat.mp3");
+var gm = new Audio("../sounds/gloriousMorning.mp3");
 
 
 function playWoosh() {
@@ -7,5 +7,9 @@ function playWoosh() {
     wooshSound.play();
 }
 
-function playHellcatLoop() {
+function playMusicLoop() {
+    gm.loop = true;
+    gm.volume = 0.06;
+    gm.currentTime = 0;
+    gm.play();
 }

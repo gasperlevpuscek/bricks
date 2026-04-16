@@ -228,6 +228,15 @@ canvas {
     display: none;
 }
 
+#musicDiv {
+    position: absolute;
+    bottom: 4px;
+    right: 5px;
+    color: rgb(113, 113, 113);
+    font-size: 12px;
+}
+
+
 @keyframes rain-fall {
     from {
         transform: translateY(-15vh);
