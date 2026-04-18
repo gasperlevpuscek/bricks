@@ -89,7 +89,7 @@ function fadeInSun(ctx, sunImage, width = 700, height = 700, duration = 900) {
 
         var progress = Math.min((timestamp - startTime) / duration, 1);
         var drawX = (WIDTH - width) / 2;
-        var drawY = (HEIGHT - height) / 2;
+        var drawY = (HEIGHT - height) / 4;
 
         clear();
         ctx.save();

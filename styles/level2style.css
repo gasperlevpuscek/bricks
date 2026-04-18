@@ -246,3 +246,13 @@ canvas {
         transform: translateY(115vh);
     }
 }
+
+
+.my-swal-popup {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    color: black;
+}

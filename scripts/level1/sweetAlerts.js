@@ -22,18 +22,21 @@ function endGame() {
 function winGame() {
     saveBestScore();
     Swal.fire({
-        title: "You Win",
-        html: `You cleared all the clouds<br>
+
+        html: `<h1>You win!</h1><br>You cleared all the clouds in ${getFormattedElapsedTime()}<br>
                Your score: ${score}`,
         confirmButtonColor: "#4fa0dd",
         confirmButtonText: "Retry",
         showDenyButton: true,
-        denyButtonColor: "#dd4f88",
+        denyButtonColor: "#dccd5e",
         denyButtonText: "Next Level",
         allowOutsideClick: false,
         allowEscapeKey: false,
         allowEnterKey: false,
-        backdrop: false
+        backdrop: false,
+        customClass: {
+            popup: 'my-swal-popup'
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.reload();

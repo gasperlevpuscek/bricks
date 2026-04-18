@@ -166,3 +166,12 @@ canvas {
     color: rgb(113, 113, 113);
     font-size: 12px;
 }
+
+.my-swal-popup {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    color: black;
+}
